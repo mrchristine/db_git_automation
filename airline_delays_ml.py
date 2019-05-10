@@ -86,7 +86,28 @@ print(testData.count())
 
 # COMMAND ----------
 
-lr = LogisticRegression(featuresCol="features", labelCol="delayed", regParam=0.01, weightCol="weight")
+from pyspark.ml.classification import LogisticRegression 
+
+lr = LogisticRegression(featuresCol="features", labelCol="delayed", regParam=0.01)
 
 # COMMAND ----------
 
+lrModel = lr.fit(trainingData)
+
+# COMMAND ----------
+
+results = lrModel.transform(testData)
+
+# COMMAND ----------
+
+display(results)
+
+# COMMAND ----------
+
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+evaluator = BinaryClassificationEvaluator(labelCol="delayed")
+print(evaluator.evaluate(results))
+
+# COMMAND ----------
+
+lrModel.save("s3a://dbc-mwc/ml_models/flight_delays_lr/")
