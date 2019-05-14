@@ -100,14 +100,12 @@ results = lrModel.transform(testData)
 
 # COMMAND ----------
 
-display(results)
-
-# COMMAND ----------
-
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
 evaluator = BinaryClassificationEvaluator(labelCol="delayed")
 print(evaluator.evaluate(results))
 
 # COMMAND ----------
 
-lrModel.save("s3a://dbc-mwc/ml_models/flight_delays_lr/")
+import datetime
+now = datetime.datetime.now()
+lrModel.mode("overwrite").save("s3a://dbc-mwc/ml_models/flight_delays_lr/lr_{0}".format(now.strftime("%Y%m%d")))
