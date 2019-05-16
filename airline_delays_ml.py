@@ -107,5 +107,6 @@ print(evaluator.evaluate(results))
 # COMMAND ----------
 
 import datetime
+# save dataset
 now = datetime.datetime.now()
 lrModel.mode("overwrite").save("s3a://dbc-mwc/ml_models/flight_delays_lr/lr_{0}".format(now.strftime("%Y%m%d")))
